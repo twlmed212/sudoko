@@ -7,6 +7,53 @@ import (
 
 const N = 9
 
+func main() {
+	args := os.Args[1:]
+
+	// Validate the number of arguments
+	if len(args) != N {
+		fmt.Println("Error")
+		return
+	}
+
+	board := make([][]byte, N)
+	for i := range board {
+		// Validate the length of each row
+		if len(args[i]) != N {
+			fmt.Println("Error")
+			return
+		}
+
+		// Validate characters in each row
+		for _, char := range args[i] {
+			if char != '.' && (char < '1' || char > '9') {
+				fmt.Println("Error")
+				return
+			}
+		}
+
+		board[i] = []byte(args[i])
+	}
+
+	// Validate Sudoku boardfmt.Println("Input Sudoku:")
+	// printBoard(board)
+	if !isValidSudoku(board) {
+		fmt.Println("Error")
+		return
+	}
+
+	// fmt.Println("Input Sudoku:")
+	// printBoard(board)
+
+	// Solve the Sudoku puzzle
+	if solveSudoku(board) {
+		//	fmt.Println("Solved Sudoku:")
+		printBoard(board)
+	} else {
+		fmt.Println("Error")
+	}
+}
+
 func printBoard(board [][]byte) {
 	for i := 0; i < N; i++ {
 		for j := 0; j < N; j++ {
@@ -125,51 +172,4 @@ func isValidSudoku(board [][]byte) bool {
 	}
 
 	return true
-}
-
-func main() {
-	args := os.Args[1:]
-
-	// Validate the number of arguments
-	if len(args) != N {
-		fmt.Println("Error")
-		return
-	}
-
-	board := make([][]byte, N)
-	for i := range board {
-		// Validate the length of each row
-		if len(args[i]) != N {
-			fmt.Println("Error")
-			return
-		}
-
-		// Validate characters in each row
-		for _, char := range args[i] {
-			if char != '.' && (char < '1' || char > '9') {
-				fmt.Println("Error")
-				return
-			}
-		}
-
-		board[i] = []byte(args[i])
-	}
-
-	// Validate Sudoku boardfmt.Println("Input Sudoku:")
-	// printBoard(board)
-	if !isValidSudoku(board) {
-		fmt.Println("Error")
-		return
-	}
-
-	// fmt.Println("Input Sudoku:")
-	// printBoard(board)
-
-	// Solve the Sudoku puzzle
-	if solveSudoku(board) {
-		//	fmt.Println("Solved Sudoku:")
-		printBoard(board)
-	} else {
-		fmt.Println("Error")
-	}
 }
